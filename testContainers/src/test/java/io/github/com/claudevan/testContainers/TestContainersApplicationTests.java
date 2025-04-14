@@ -1,10 +1,10 @@
-package io.github.com.claudevan.testContainers;
+package io.github.com.claudevan.testcontainers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestContainersApplicationTests {
+class TestcontainersApplicationTests {
 
 	@Test
 	void contextLoads() {
