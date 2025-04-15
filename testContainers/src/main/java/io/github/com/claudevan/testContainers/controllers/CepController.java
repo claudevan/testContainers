@@ -22,4 +22,5 @@ public class CepController {
 
         return cepService.getAddress(cep);
     }
+
 }
