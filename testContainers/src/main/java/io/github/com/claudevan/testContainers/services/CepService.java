@@ -1,26 +1,58 @@
 package io.github.com.claudevan.testcontainers.services;
 
 import io.github.com.claudevan.testcontainers.domain.CepDto;
+import io.github.com.claudevan.testcontainers.domain.entity.CepEntity;
+import io.github.com.claudevan.testcontainers.domain.repository.CepRepository;
+import io.github.com.claudevan.testcontainers.mappers.CepMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class CepService {
 
+    private final CepRepository cepRepository;
+    private final CepMapper cepMapper;
+
+    public CepService(CepRepository cepRepository,
+                      CepMapper cepMapper) {
+        this.cepRepository = cepRepository;
+        this.cepMapper = cepMapper;
+    }
 
     public CepDto getAddress(String cep) {
-        CepDto data;
+        CepDto data = new CepDto();
 
         //buscar no redis
 
         //buscar na base
+        var cepEntity = cepRepository.findByCep(cep);
 
         //buscar na API
-        data = getAddressFromApi(cep);
+        if (cepEntity == null) {
+            data = getAddressFromApi(cep);
 
-        //Esquentar a base
+            //Esquentar a base
+            
+            
 
-        //Esquentar redis
+            cepRepository.save(new CepEntity(null,
+                    data.getCep().replace("-", ""),
+                    data.getLogradouro(),
+                    data.getBairro(),
+                    data.getLocalidade(),
+                    data.getUf(),
+                    data.getEstado(),
+                    data.getRegiao(),
+                    data.getDdd()));
+
+
+            //Esquentar redis
+        }
+
+
+
 
         return data;
     }
