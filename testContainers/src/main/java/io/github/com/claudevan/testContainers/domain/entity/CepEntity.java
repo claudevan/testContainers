@@ -1,5 +1,6 @@
 package io.github.com.claudevan.testcontainers.domain.entity;
 
+import io.github.com.claudevan.testcontainers.domain.CepDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -46,4 +47,16 @@ public class CepEntity {
 
     @Column(nullable = false, length = 3)
     private String ddd;
+
+    public static CepEntity Builder(CepDto cepDto) {
+        return new CepEntity(null,
+                cepDto.getCep().replace("-", ""),
+                cepDto.getLogradouro(),
+                cepDto.getBairro(),
+                cepDto.getLocalidade(),
+                cepDto.getUf(),
+                cepDto.getEstado(),
+                cepDto.getRegiao(),
+                cepDto.getDdd());
+    }
 }
